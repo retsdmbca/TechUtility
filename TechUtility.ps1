@@ -92,3 +92,30 @@ Function RemoveIcons {
 }
 ### 
 
+
+#################################################################################
+
+### Repair Windows Update ###
+
+Stop-Service wuauserv -Force
+Stop-Service cryptSvc -Force
+Stop-Service bits -Force
+Stop-Service msiserver -Force
+Start-Sleep -s 4
+try {
+    Rename-item C:\Windows\System32\catroot2 Catroot2.old -force
+    Rename-item C:\Windows\SoftwareDistribution SoftwareDistribution.old -force 
+    
+} catch {
+    $ErrorMessage = $_.Exception.Message
+    $FailedItem = $_.Exception.ItemName
+    write "$errormessage" | out-file -filepath $outputfile -append
+}
+Start-Service wuauserv
+Start-Service cryptSvc
+Start-Service bits
+Start-Service msiserver
+
+install-packageprovider -name NuGet -MinimumVersion 2.8.5.201 -force
+Install-Module PSWindowsUpdate -force
+install-windowsupdate -AcceptAll -install
