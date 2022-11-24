@@ -5,7 +5,6 @@ $bios = Get-ComputerInfo BiosSeralNumber
 $version = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" -Name DisplayVersion).DisplayVersion
 
 ### Function to End Tasks ###
-
 Function Running{$Labeloutput.Text = "Script Output: Program Running"}
 Function ResetLabel{$Labeloutput.Text = "Script Output"}
 
@@ -88,7 +87,6 @@ Function RegenerateWallpaper {
     Running
     if (test-path 'C:\ProgramData\RETSD\RETSD Wallpaper'){Remove-Item -Recurse -Force 'C:\ProgramData\RETSD\RETSD Wallpaper'}
     if (Test-RegistryValue -Path 'HKLM:\SOFTWARE\RETSD' -Value 'Desktop Wallpaper Version' -ErrorAction SilentlyContinue) {Remove-ItemProperty -name "Desktop Wallpaper Version" -Path 'HKLM:\Software\RETSD'}
-    start-sleep 3
     $TextBoxOutput.text = "Wallpaper will be regenerated"
     ResetLabel
 }
