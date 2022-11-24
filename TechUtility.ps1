@@ -5,6 +5,10 @@ $bios = Get-ComputerInfo BiosSeralNumber
 $version = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" -Name DisplayVersion).DisplayVersion
 
 ### Function to End Tasks ###
+
+Function Running{$Labeloutput.Text = "Script Output: Program Running"}
+Function ResetLabel{$Labeloutput.Text = "Script Output"}
+
 Function EndTask($taskname) {
     Stop-Process -name "$taskname" -Force
     $ProcessList = @("$taskname")
@@ -34,26 +38,31 @@ foreach ($user in $Users) {if($user -notlike '*systemprofile*' -and $user -notli
 
 ### Clear Teams Cache ###
 Function ClearTeamsCache {
+    Running
     EndTask teams  
     $folder = $env:APPDATA + '\microsoft\teams'
     remove-item -Recurse -Force $folder
     $TextBoxOutput.text = "Teams Cache has been cleared"
+    ResetLabel
 }
 ################################################################################################
 
 ### Repair Onedrive ###
 Function RepairOnedrive {
+    Running
     EndTask onedrive
 
     Remove-Item -Recurse -Force -ErrorAction Ignore "C:\Users\$env:UserName\AppData\Local\OneDrive"
     Remove-Item -Recurse -Force -ErrorAction Ignore "C:\Users\$env:UserName\AppData\Local\Microsoft\OneDrive"
     $TextBoxOutput.text = "You can now open Onedrive manually from the Start Menu.  Installer can be found in \\ao-sccm\MS\OneDrive 21"
+    ResetLabel
 }
 
 ################################################################################################
 
 ### Remove Local Profiles ###
 Function RemoveProfiles {
+    Running
     $i=1
     $reg = Get-ItemProperty -Path Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\MpsSvc | Select-Object -ExpandProperty Start
     if ($reg -eq "4") {
@@ -69,16 +78,19 @@ Function RemoveProfiles {
         }
     }
     $TextBoxOutput.text = "User profiles have been removed"
+    ResetLabel
 }
 
 ################################################################################################
 
 ### Rerun RETSD Wallpaper Deployment ###   Add info for
 Function RegenerateWallpaper {
+    Running
     if (test-path 'C:\ProgramData\RETSD\RETSD Wallpaper'){Remove-Item -Recurse -Force 'C:\ProgramData\RETSD\RETSD Wallpaper'}
     if (Test-RegistryValue -Path 'HKLM:\SOFTWARE\RETSD' -Value 'Desktop Wallpaper Version' -ErrorAction SilentlyContinue) {Remove-ItemProperty -name "Desktop Wallpaper Version" -Path 'HKLM:\Software\RETSD'}
     start-sleep 3
     $TextBoxOutput.text = "Wallpaper will be regenerated"
+    ResetLabel
 }
 
 
@@ -86,6 +98,7 @@ Function RegenerateWallpaper {
 
 ### Get Autopilot HWID file ###
 Function AutopilotHWID {
+    Running
     Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
     Install-Script -name Get-WindowsAutopilotInfo -Force
     $APfilename = "c:\$($computername) AutopilotHWIDs.csv"
@@ -95,12 +108,14 @@ Function AutopilotHWID {
     $Sanity = Import-Csv -Path $APfilename | Where-Object {$_.'Device Serial Number' -eq ((Get-CimInstance win32_bios | Select-Object serialnumber).serialnumber)}
     if($Sanity.'Device Serial Number'.Count -eq 1){$TextBoxOutput.text = "Serial number imported into $APfilename successfully"}
     else{$TextBoxOutput.text = "Serial number DID NOT import into $APfilename"}
+    ResetLabel
 }
 
 #################################################################################
 
 ### Upload HWID ###
 Function UploadHWID {
+    Running
     Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
     Install-Script -name Get-WindowsAutopilotInfo -Force
     $TextBoxOutput.text = "Process has begun, it may take a few minutes to complete."
@@ -108,12 +123,14 @@ Function UploadHWID {
 
     Get-WindowsAutoPilotInfo -Online -GroupTag $grouptag
     $TextBoxOutput.text = "Upload has completed.  Please verify in Intune."
+    ResetLabel
 }
 
 #################################################################################
 
 ### Remove Unnecessary Icons ###
 Function RemoveIcons {
+    Running
     REG ADD "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\PenWorkspace" /V PenWorkspaceButtonDesiredVisibility /T REG_DWORD /D 0 /F
     REG ADD "HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds" /V EnableFeeds /T REG_DWORD /D 0 /F
     REG ADD "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /V ShowCortanaButton /T REG_DWORD /D 0 /F
@@ -127,12 +144,14 @@ Function RemoveIcons {
     taskkill /f /im explorer.exe
     start-process explorer.exe
     $TextBoxOutput.text = "Taskbar items removed"
+    ResetLabel
 }
 
 #################################################################################
 
 ### Repair Windows Update ###
 Function RepairWindows{
+    Running
     $date = get-date -f yyyy-MM-dd
     $TextBoxOutput.text = "Stopping Services"
     Stop-Service wuauserv -Force
@@ -165,14 +184,17 @@ Function RepairWindows{
     install-windowsupdate -AcceptAll -install -IgnoreReboot | Out-File "C:\ProgramData\RETSD\$($date)-WindowsUpdate.log" -force
     write-output "Windows Update script finished" | out-file -filepath "C:\ProgramData\RETSD\$($date)-WindowsUpdate.log" -append
     $TextBoxOutput.AppendText("Updates Completed`r`n")
+    ResetLabel
 }
 
 #################################################################################
 
 ### Check Encryption Status ###
 Function EncryptionStatus {
+    Running
     $status = Get-BitLockerVolume -MountPoint c
     $TextBoxOutput.text = "Encryption at $($status.EncryptionPercentage)%"
+    ResetLabel
 }
 
 #################################################################################
