@@ -1,5 +1,5 @@
 Add-Type -AssemblyName PresentationCore,PresentationFramework
-$computername = gc env:computername
+$computername = Get-Content env:computername
 $OSBuild = Get-ComputerInfo OsHardwareAbstractionLayer
 $bios = Get-ComputerInfo BiosSeralNumber 
 $version = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" -Name DisplayVersion).DisplayVersion
@@ -9,7 +9,7 @@ Function EndTask($taskname) {
     Stop-Process -name "$taskname" -Force
     $ProcessList = @("$taskname")
     Do {
-        $ProcessesFound = Get-Process | ? {$ProcessList -contains $_.Name} | Select-Object -ExpandProperty Name
+        $ProcessesFound = Get-Process | Where-Object {$ProcessList -contains $_.Name} | Select-Object -ExpandProperty Name
         If ($ProcessesFound) {Start-Sleep 2}
     } Until (!$ProcessesFound)
 }
@@ -61,7 +61,7 @@ Function RemoveProfiles {
         $TextBoxOutput.text = "The Windows firewall was not ON, regkey changed and computer needs to be restarted before trying again"
     }
     if([bool](([System.Security.Principal.WindowsIdentity]::GetCurrent()).groups -match "S-1-5-32-544")) {
-        (Get-WmiObject -Class Win32_UserProfile | Where-Object {($_.Special -eq $false) -and ($_.Loaded -eq $False) -and ($_.SID -ne "S-1-5-21-3830986519-219807107-1256945042-500")}) | foreach{
+        (Get-WmiObject -Class Win32_UserProfile | Where-Object {($_.Special -eq $false) -and ($_.Loaded -eq $False) -and ($_.SID -ne "S-1-5-21-3830986519-219807107-1256945042-500")}) | ForEach-Object{
             $TextBoxOutput.text = "Removing profile $($i) of $($usercount)"
             $progressbar1.PerformStep()
             $_.Delete()
@@ -104,8 +104,8 @@ Function UploadHWID {
     Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force
     Install-Script -name Get-WindowsAutopilotInfo -Force
     $TextBoxOutput.text = "Process has begun, it may take a few minutes to complete."
-    $grouptag =""
-    $grouptag = 'NoAdmin_Staff_Assigned','NoAdmin_Staff_Shared','French_Staff_Shared','NoAdmin_Student_Shared','LOM_Student_Shared' | Out-GridView -Title "Select Group Tag" –PassThru
+    $grouptag = 'NoAdmin_Staff_Assigned','NoAdmin_Staff_Shared','French_Staff_Shared','NoAdmin_Student_Shared','LOM_Student_Shared' | Out-GridView -Title "Select Group Tag" -PassThru
+
     Get-WindowsAutoPilotInfo -Online -GroupTag $grouptag
     $TextBoxOutput.text = "Upload has completed.  Please verify in Intune."
 }
@@ -122,7 +122,7 @@ Function RemoveIcons {
 
     $apps = "Microsoft Store","Mail"
     foreach ($appname in $apps) {
-    ((New-Object -Com Shell.Application).NameSpace('shell:::{4234d49b-0245-4df3-b780-3893943456e1}').Items() | ?{$_.Name -eq $appname}).Verbs() | ?{$_.Name.replace('&','') -match 'Unpin from taskbar'} | %{$_.DoIt(); $exec = $true}
+    ((New-Object -Com Shell.Application).NameSpace('shell:::{4234d49b-0245-4df3-b780-3893943456e1}').Items() | Where-Object{$_.Name -eq $appname}).Verbs() | Where-Object{$_.Name.replace('&','') -match 'Unpin from taskbar'} | ForEach-Object{$_.DoIt(); $exec = $true}
     }
     taskkill /f /im explorer.exe
     start-process explorer.exe
