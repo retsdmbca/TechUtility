@@ -167,6 +167,7 @@ Function RepairWindows{
         $ErrorMessage = $_.Exception.Message
         $TextBoxOutput.text =  $errormessage
     }
+    $TextBoxOutput.AppendText("`r`n")
     $TextBoxOutput.AppendText("Restarting Services`r`n")
     Start-Service wuauserv
     Start-Service cryptSvc
