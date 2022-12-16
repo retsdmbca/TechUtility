@@ -304,11 +304,9 @@ $TextInfo.multiline = $true
 $TextInfo.width = 200
 $TextInfo.height = 80
 $TextInfo.location = New-Object System.Drawing.Point(570,10)
-$TextInfo.AppendText($osbuild.OsHardwareAbstractionLayer + "`r`n")
 $TextInfo.AppendText($version + "`r`n")
 $TextInfo.AppendText($bios.BiosSeralNumber + "`r`n")
 $TextInfo.AppendText($computername)
-$TextInfo.AppendText($permissions)
 $main_form.Controls.Add($TextInfo)
 
 $main_form.ShowDialog()
