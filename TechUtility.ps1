@@ -1,4 +1,4 @@
-Stopprocess -name "TechUtilityLauncher" 
+
 Add-Type -AssemblyName PresentationCore,PresentationFramework
 $computername = Get-Content env:computername
 $OSBuild = Get-ComputerInfo OsHardwareAbstractionLayer
@@ -7,7 +7,7 @@ $version = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentV
 
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
 $permissions = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
-
+Stopprocess -name "TechUtilityLauncher" 
 ### Function to End Tasks ###
 Function Running{$Labeloutput.Text = "Script Output: Program Running"}
 Function ResetLabel{$Labeloutput.Text = "Script Output"}
