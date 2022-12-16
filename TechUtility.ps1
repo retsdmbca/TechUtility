@@ -38,7 +38,6 @@ $usercount=0
 $users = Get-ChildItem 'HKLM:\Software\Microsoft\Windows NT\CurrentVersion\ProfileList' | ForEach-Object { $_.GetValue('ProfileImagePath') }
 foreach ($user in $Users) {if($user -notlike '*systemprofile*' -and $user -notlike '*LocalService*' -and $user -notlike '*NetworkService*' -and $user -notlike '*Administrator*' -and $user -notlike '*jbergen*') {$usercount++}}
 
-
 ### Clear Teams Cache ###
 Function ClearTeamsCache {
     Running
@@ -154,6 +153,7 @@ Function RemoveIcons {
 ### Repair Windows Update ###
 Function RepairWindows{
     Running
+    if (!(test-path "C:\ProgramData\RETSD\Tech Utility App\Logs")) {New-Item -Path "C:\ProgramData\RETSD\Logs" -ItemType directory}
     $date = get-date -f yyyy-MM-dd
     $TextBoxOutput.text = "Stopping Services"
     Stop-Service wuauserv -Force
@@ -179,13 +179,13 @@ Function RepairWindows{
     Start-Sleep -s 10
     if (!(test-path "C:\ProgramData\RETSD")){New-Item -Path "C:\ProgramData\RETSD" -ItemType directory}
     
-    start-process C:\ProgramData\RETSD\CMTrace.exe "C:\ProgramData\RETSD\$($date)-WindowsUpdate.log"
+    start-process C:\ProgramData\RETSD\CMTrace.exe "C:\ProgramData\RETSD\Logs\$($date)-WindowsUpdate.log"
     $TextBoxOutput.AppendText("Installing Packages`r`n")
     install-packageprovider -name NuGet -MinimumVersion 2.8.5.201 -force
     Install-Module PSWindowsUpdate -force
     $TextBoxOutput.AppendText("Beginning Updates`r`n")
-    install-windowsupdate -AcceptAll -install -IgnoreReboot | Out-File "C:\ProgramData\RETSD\$($date)-WindowsUpdate.log" -force
-    write-output "Windows Update script finished" | out-file -filepath "C:\ProgramData\RETSD\$($date)-WindowsUpdate.log" -append
+    install-windowsupdate -AcceptAll -install -IgnoreReboot | Out-File "C:\ProgramData\RETSD\Logs\$($date)-WindowsUpdate.log" -force
+    write-output "Windows Update script finished" | out-file -filepath "C:\ProgramData\RETSD\\Logs\$($date)-WindowsUpdate.log" -append
     $TextBoxOutput.AppendText("Updates Completed`r`n")
     ResetLabel
 }
