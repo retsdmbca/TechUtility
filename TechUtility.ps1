@@ -6,7 +6,7 @@ $version = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentV
 
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
 $permissions = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
-Stopprocess -name "TechUtilityLauncher" 
+
 ### Function to End Tasks ###
 Function Running{$Labeloutput.Text = "Script Output: Program Running"}
 Function ResetLabel{$Labeloutput.Text = "Script Output"}
@@ -198,6 +198,8 @@ Function EncryptionStatus {
     $TextBoxOutput.text = "Encryption at $($status.EncryptionPercentage)%"
     ResetLabel
 }
+
+endtask TechUtilityLauncher
 
 #################################################################################
 
