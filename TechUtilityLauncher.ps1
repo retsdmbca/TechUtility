@@ -1,14 +1,13 @@
 ﻿cls
 if (!(test-path "C:\ProgramData\RETSD")){New-Item -Path "C:\ProgramData\RETSD" -ItemType directory}
 if (!(test-path "C:\ProgramData\RETSD\CMTrace.exe")){Invoke-WebRequest -Uri https://github.com/retsdmbca/TechUtility/blob/master/CMTrace.exe?raw=true -OutFile C:\ProgramData\RETSD\CMTrace.exe}
-Invoke-WebRequest -Uri https://raw.githubusercontent.com/retsdmbca/TechUtility/master/TechUtility.ps1 -OutFile C:\ProgramData\RETSD\TechUtility.ps1
+Invoke-WebRequest -Uri https://raw.githubusercontent.com/retsdmbca/TechUtility/master/TechUtility.ps1 -OutFile "C:\ProgramData\RETSD\Tech Utility App\TechUtility.ps1"
 
 Function Run {
     $Labeloutput.Visible = $true
     if ($RadioButton1.Checked -eq $true) {Start-Process powershell.exe -ArgumentList '-WindowStyle Hidden -noprofile -file C:\ProgramData\RETSD\TechUtility.ps1' }
     if ($RadioButton2.Checked -eq $true) {Start-Process powershell.exe -ArgumentList '-WindowStyle Hidden -noprofile -file C:\ProgramData\RETSD\TechUtility.ps1' -Verb RunAs}
 }
-
 
 Add-Type -AssemblyName PresentationCore,PresentationFramework
 Add-Type -assembly System.Windows.Forms

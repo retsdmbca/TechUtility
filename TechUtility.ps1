@@ -1,8 +1,9 @@
 Add-Type -AssemblyName PresentationCore,PresentationFramework
 $computername = Get-Content env:computername
-$OSBuild = Get-ComputerInfo OsHardwareAbstractionLayer
-$bios = Get-ComputerInfo BiosSeralNumber 
+$OSBuild = (Get-ComputerInfo OsHardwareAbstractionLayer).OsHardwareAbstractionLayer
+$SerialNumber = (Get-ComputerInfo BiosSeralNumber).BiosSeralNumber
 $version = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" -Name DisplayVersion).DisplayVersion
+$BIOS = (Get-WmiObject -Class Win32_BIOS).SMBIOSBIOSVersion
 
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
 $permissions = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
@@ -144,7 +145,7 @@ Function RemoveIcons {
     }
     taskkill /f /im explorer.exe
     start-process explorer.exe
-    $TextBoxOutput.text = "Taskbar items removed"
+    $TextBoxOutput.text = "Taskbar items removed. (Windows Ink Workspace, News Feed, Cortana Button, Taskview Button, Search Box, MS Store Icon, Mail Icon"
     ResetLabel
 }
 
@@ -205,7 +206,9 @@ endtask TechUtilityLauncher
 
 Add-Type -assembly System.Windows.Forms
 $main_form = New-Object System.Windows.Forms.Form
-$main_form.Text ='Tech Utility'
+if ($permissions -eq $true) {$main_form.Text ='Tech Utility [Administrator]'}
+if ($permissions -eq $false) {$main_form.Text ='Tech Utility'}
+#$main_form.Text ='Tech Utility'
 $main_form.Width = 800
 $main_form.Height = 600
 $main_form.AutoSize = $true
@@ -305,7 +308,9 @@ $TextInfo.width = 200
 $TextInfo.height = 80
 $TextInfo.location = New-Object System.Drawing.Point(570,10)
 $TextInfo.AppendText($version + "`r`n")
-$TextInfo.AppendText($bios.BiosSeralNumber + "`r`n")
+$TextInfo.AppendText("BIOS: " + $BIOS + "`r`n")
+$TextInfo.AppendText("SN: " + $SerialNumber + "`r`n")
+$TextInfo.AppendText("Build: " + $OSBuild + "`r`n")
 $TextInfo.AppendText($computername)
 $main_form.Controls.Add($TextInfo)
 

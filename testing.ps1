@@ -1,1 +1,0 @@
-gwmi win32_operatingsystem
