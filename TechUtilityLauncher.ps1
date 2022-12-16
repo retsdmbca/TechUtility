@@ -4,7 +4,7 @@ if (!(test-path "C:\ProgramData\RETSD\CMTrace.exe")){Invoke-WebRequest -Uri http
 Invoke-WebRequest -Uri https://raw.githubusercontent.com/retsdmbca/TechUtility/master/TechUtility.ps1 -OutFile C:\ProgramData\RETSD\TechUtility.ps1
 
 Function Run {
-    $PID
+    $Labeloutput.Visible = $true
     if ($RadioButton1.Checked -eq $true) {Start-Process powershell.exe -ArgumentList '-WindowStyle Hidden -noprofile -file C:\ProgramData\RETSD\TechUtility.ps1' }
     if ($RadioButton2.Checked -eq $true) {Start-Process powershell.exe -ArgumentList '-WindowStyle Hidden -noprofile -file C:\ProgramData\RETSD\TechUtility.ps1' -Verb RunAs}
 }
@@ -43,11 +43,18 @@ $RadioButton2.Text = "Run Elevated"
 $groupBox.Controls.Add($RadioButton2)
 
 $ButtonRun = New-Object System.Windows.Forms.Button
-$ButtonRun.Location = New-Object System.Drawing.Size(20,120)
+$ButtonRun.Location = New-Object System.Drawing.Size(20,110)
 $ButtonRun.Size = New-Object System.Drawing.Size(150,23)
 $ButtonRun.Text = "Run Program"
 $ButtonRun.Add_Click({Run})
 $main_form.Controls.Add($ButtonRun)
+
+$Labeloutput = New-Object System.Windows.Forms.Label
+$Labeloutput.Text = "Please Wait..."
+$Labeloutput.Location  = New-Object System.Drawing.Point(20,140)
+$Labeloutput.AutoSize = $true
+$Labeloutput.Visible = $false
+$main_form.Controls.Add($Labeloutput)
 
 $main_form.ShowDialog()
 
