@@ -307,7 +307,7 @@ $TextInfo.multiline = $true
 $TextInfo.width = 200
 $TextInfo.height = 80
 $TextInfo.location = New-Object System.Drawing.Point(570,10)
-$TextInfo.AppendText($version + "`r`n")
+$TextInfo.AppendText("OS Version: " + $version + "`r`n")
 $TextInfo.AppendText("BIOS: " + $BIOS + "`r`n")
 $TextInfo.AppendText("SN: " + $SerialNumber + "`r`n")
 $TextInfo.AppendText("Build: " + $OSBuild + "`r`n")
