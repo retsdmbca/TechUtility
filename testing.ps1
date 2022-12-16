@@ -2,6 +2,4 @@
 Start-Process powershell -verb runas 
 
 
-
-$currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
-$currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+Get-Process powershell | gm ProcessName,Description
