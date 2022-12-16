@@ -4,6 +4,9 @@ $OSBuild = Get-ComputerInfo OsHardwareAbstractionLayer
 $bios = Get-ComputerInfo BiosSeralNumber 
 $version = (Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" -Name DisplayVersion).DisplayVersion
 
+$currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+$permissions = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+
 ### Function to End Tasks ###
 Function Running{$Labeloutput.Text = "Script Output: Program Running"}
 Function ResetLabel{$Labeloutput.Text = "Script Output"}
@@ -231,7 +234,7 @@ $ButtonIcons.Location = New-Object System.Drawing.Size(10,60)
 $ButtonIcons.Size = New-Object System.Drawing.Size(160,23)
 $ButtonIcons.Text = "Remove Icons"
 $ButtonIcons.Add_Click({RemoveIcons})
-$main_form.Controls.Add($ButtonIcons)
+
 
 $ButtonWallpaper = New-Object System.Windows.Forms.Button
 $ButtonWallpaper.Location = New-Object System.Drawing.Size(10,110)
@@ -299,6 +302,7 @@ $TextInfo.AppendText($osbuild.OsHardwareAbstractionLayer + "`r`n")
 $TextInfo.AppendText($version + "`r`n")
 $TextInfo.AppendText($bios.BiosSeralNumber + "`r`n")
 $TextInfo.AppendText($computername)
+$TextInfo.AppendText($permissions)
 $main_form.Controls.Add($TextInfo)
 
 $main_form.ShowDialog()
