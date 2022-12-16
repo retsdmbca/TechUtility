@@ -1,4 +1,4 @@
-##test
+##test###
 Add-Type -AssemblyName PresentationCore,PresentationFramework
 $computername = Get-Content env:computername
 $OSBuild = Get-ComputerInfo OsHardwareAbstractionLayer
