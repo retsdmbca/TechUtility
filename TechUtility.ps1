@@ -209,6 +209,10 @@ $main_form.Text ='Tech Utility'
 $main_form.Width = 800
 $main_form.Height = 600
 $main_form.AutoSize = $true
+$main_form.StartPosition = 'CenterScreen'
+$main_form.FormBorderStyle = 'Fixed3D'
+$main_form.AutoSize = $false
+$main_form.MaximizeBox = $false
 
 $Labeloutput = New-Object System.Windows.Forms.Label
 $Labeloutput.Text = "Script Output"
@@ -236,7 +240,7 @@ $ButtonIcons.Location = New-Object System.Drawing.Size(10,60)
 $ButtonIcons.Size = New-Object System.Drawing.Size(160,23)
 $ButtonIcons.Text = "Remove Icons"
 $ButtonIcons.Add_Click({RemoveIcons})
-
+$main_form.Controls.Add($ButtonIcons)
 
 $ButtonWallpaper = New-Object System.Windows.Forms.Button
 $ButtonWallpaper.Location = New-Object System.Drawing.Size(10,110)
