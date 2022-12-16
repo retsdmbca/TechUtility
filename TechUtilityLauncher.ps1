@@ -50,3 +50,6 @@ $ButtonRun.Add_Click({Run})
 $main_form.Controls.Add($ButtonRun)
 
 $main_form.ShowDialog()
+
+#Install-Module ps2exe
+#Invoke-ps2exe -inputfile "D:\Git Repository\TechUtility\TechUtilityLauncher.ps1" -outputfile "D:\TechUtilityLauncher.exe"
