@@ -245,6 +245,7 @@ $ButtonIcons = New-Object System.Windows.Forms.Button
 $ButtonIcons.Location = New-Object System.Drawing.Size(10,60)
 $ButtonIcons.Size = New-Object System.Drawing.Size(160,23)
 $ButtonIcons.Text = "Remove Icons"
+$buttonIcons.MouseHover = "Taskbar items removed. (Windows Ink Workspace, News Feed, Cortana Button, Taskview Button, Search Box, MS Store Icon, Mail Icon)"
 $ButtonIcons.Add_Click({RemoveIcons})
 $main_form.Controls.Add($ButtonIcons)
 
@@ -283,12 +284,12 @@ $ButtonUploadHWID.Text = "Upload HWID"
 $ButtonUploadHWID.Add_Click({UploadHWID})
 $main_form.Controls.Add($ButtonUploadHWID)
 
-$RemoveProfiles = New-Object System.Windows.Forms.Button
-$RemoveProfiles.Location = New-Object System.Drawing.Size(10,360)
-$RemoveProfiles.Size = New-Object System.Drawing.Size(160,23)
-$RemoveProfiles.Text = "Remove Local Profiles"
-$RemoveProfiles.Add_Click({RemoveProfiles})
-$main_form.Controls.Add($RemoveProfiles)
+$ButtonRemoveProfiles = New-Object System.Windows.Forms.Button
+$ButtonRemoveProfiles.Location = New-Object System.Drawing.Size(10,360)
+$ButtonRemoveProfiles.Size = New-Object System.Drawing.Size(160,23)
+$ButtonRemoveProfiles.Text = "Remove Local Profiles"
+.Add_Click({RemoveProfiles})
+$main_form.Controls.Add($ButtonRemoveProfiles)
 
 $ButtonWindowsUpdates = New-Object System.Windows.Forms.Button
 $ButtonWindowsUpdates.Location = New-Object System.Drawing.Size(200,10)
@@ -319,8 +320,7 @@ $main_form.Controls.Add($TextInfo)
 
 if ($state -eq "normal") {
     $ButtonWallpaper.Enabled = $false
-    $ButtonWallpaper.
-    $RemoveProfiles.Enabled = $false
+    $ButtonRemoveProfiles.Enabled = $false
     $ButtonWindowsUpdates.Enabled = $false
     $ButtonAutopilotHWID.Enabled = $false
     $ButtonUploadHWID.Enabled = $false
