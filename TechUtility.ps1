@@ -11,14 +11,6 @@ $permissions = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole
 
 $state = get-content "C:\ProgramData\RETSD\Tech Utility App\state.txt"
 
-if ($state -eq "normal") {
-    $ButtonWallpaper.Enabled = $false
-    $RemoveProfiles.Enabled = $false
-    $ButtonWindowsUpdates.Enabled = $false
-    $ButtonAutopilotHWID.Enabled = $false
-    $ButtonUploadHWID.Enabled = $false
-}
-
 ### Function to End Tasks ###
 Function Running{$Labeloutput.Text = "Script Output: Program Running"}
 Function ResetLabel{$Labeloutput.Text = "Script Output"}
@@ -324,5 +316,14 @@ $TextInfo.AppendText("SN: " + $SerialNumber + "`r`n")
 $TextInfo.AppendText("Build: " + $OSBuild + "`r`n")
 $TextInfo.AppendText($computername)
 $main_form.Controls.Add($TextInfo)
+
+if ($state -eq "normal") {
+    $ButtonWallpaper.Enabled = $false
+    $ButtonWallpaper.
+    $RemoveProfiles.Enabled = $false
+    $ButtonWindowsUpdates.Enabled = $false
+    $ButtonAutopilotHWID.Enabled = $false
+    $ButtonUploadHWID.Enabled = $false
+}
 
 $main_form.ShowDialog()
