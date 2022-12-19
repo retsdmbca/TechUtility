@@ -3,13 +3,15 @@ if (!(test-path "C:\ProgramData\RETSD")){New-Item -Path "C:\ProgramData\RETSD" -
 if (!(test-path "C:\ProgramData\RETSD\CMTrace.exe")){Invoke-WebRequest -Uri https://github.com/retsdmbca/TechUtility/blob/master/CMTrace.exe?raw=true -OutFile C:\ProgramData\RETSD\CMTrace.exe}
 Invoke-WebRequest -Uri https://raw.githubusercontent.com/retsdmbca/TechUtility/master/TechUtility.ps1 -OutFile "C:\ProgramData\RETSD\Tech Utility App\TechUtility.ps1"
 
+$statefile = "C:\ProgramData\RETSD\Tech Utility App\state.txt"
+    
 Function Run {
     $Labeloutput.Visible = $true
     if ($RadioButton1.Checked -eq $true) {
-        $state="normal"
+        write-output "normal" | out-file -filepath $statefile
         Start-Process powershell.exe -ArgumentList '-WindowStyle Hidden -noprofile -file "C:\ProgramData\RETSD\Tech Utility App\TechUtility.ps1"' }
     if ($RadioButton2.Checked -eq $true) {
-        $state="elevated"
+        write-output "elevated" | out-file -filepath $statefile
         Start-Process powershell.exe -ArgumentList '-WindowStyle Hidden -noprofile -file "C:\ProgramData\RETSD\Tech Utility App\TechUtility.ps1"' -Verb RunAs}
 }
 
