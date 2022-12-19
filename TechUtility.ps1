@@ -223,7 +223,14 @@ endtask TechUtilityLauncher
 
 ### Battery Info View ###
 
-Function ButtonBatteryInfo {start-process 'C:\ProgramData\RETSD\Tech Utility App\Battery Info View\BatteryInfoView.exe'}
+Function ButtonBatteryInfo {
+    start-process 'C:\ProgramData\RETSD\Tech Utility App\Battery Info View\BatteryInfoView.exe'
+    Invoke-WebRequest -Uri https://https://raw.githubusercontent.com/retsdmbca/TechUtility/master/Battery%20Info%20View/BatteryInfoView.cfg -OutFile "C:\ProgramData\RETSD\Tech Utility App\Battery Info View\BatteryInfoView.cfg"
+
+
+
+}
+
 
 #################################################################################
 
