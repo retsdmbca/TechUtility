@@ -40,7 +40,7 @@ function Test-RegistryValue {
 $usercount=0
 $users = Get-ChildItem 'HKLM:\Software\Microsoft\Windows NT\CurrentVersion\ProfileList' | ForEach-Object { $_.GetValue('ProfileImagePath') }
 foreach ($user in $Users) {if($user -notlike '*systemprofile*' -and $user -notlike '*LocalService*' -and $user -notlike '*NetworkService*' -and $user -notlike '*Administrator*' -and $user -notlike '*jbergen*') {$usercount++}}
-write "User count is $usercount" | out-file -filepath $outputfile -append
+write "User count is $usercount" | out-file -filepath $outputfile
 
 ### Clear Teams Cache ###
 Function ClearTeamsCache {
