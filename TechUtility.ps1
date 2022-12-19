@@ -88,7 +88,7 @@ Function RemoveProfiles {
 
 ################################################################################################
 
-### Rerun RETSD Wallpaper Deployment ###   Add info for
+### Rerun RETSD Wallpaper Deployment ###
 Function RegenerateWallpaper {
     Running
     if (test-path 'C:\ProgramData\RETSD\RETSD Wallpaper'){Remove-Item -Recurse -Force 'C:\ProgramData\RETSD\RETSD Wallpaper'}
@@ -245,7 +245,6 @@ $ButtonIcons = New-Object System.Windows.Forms.Button
 $ButtonIcons.Location = New-Object System.Drawing.Size(10,60)
 $ButtonIcons.Size = New-Object System.Drawing.Size(160,23)
 $ButtonIcons.Text = "Remove Icons"
-$buttonIcons.MouseHover = "Taskbar items removed. (Windows Ink Workspace, News Feed, Cortana Button, Taskview Button, Search Box, MS Store Icon, Mail Icon)"
 $ButtonIcons.Add_Click({RemoveIcons})
 $main_form.Controls.Add($ButtonIcons)
 

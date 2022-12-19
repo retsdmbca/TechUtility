@@ -2,16 +2,14 @@
 if (!(test-path "C:\ProgramData\RETSD")){New-Item -Path "C:\ProgramData\RETSD" -ItemType directory}
 if (!(test-path "C:\ProgramData\RETSD\CMTrace.exe")){Invoke-WebRequest -Uri https://github.com/retsdmbca/TechUtility/blob/master/CMTrace.exe?raw=true -OutFile C:\ProgramData\RETSD\CMTrace.exe}
 Invoke-WebRequest -Uri https://raw.githubusercontent.com/retsdmbca/TechUtility/master/TechUtility.ps1 -OutFile "C:\ProgramData\RETSD\Tech Utility App\TechUtility.ps1"
-
-$statefile = "C:\ProgramData\RETSD\Tech Utility App\state.txt"
     
 Function Run {
     $Labeloutput.Visible = $true
     if ($RadioButton1.Checked -eq $true) {
-        write-output "normal" | out-file -filepath $statefile
+        write-output "normal" | out-file -filepath "C:\ProgramData\RETSD\Tech Utility App\state.txt"
         Start-Process powershell.exe -ArgumentList '-WindowStyle Hidden -noprofile -file "C:\ProgramData\RETSD\Tech Utility App\TechUtility.ps1"' }
     if ($RadioButton2.Checked -eq $true) {
-        write-output "elevated" | out-file -filepath $statefile
+        write-output "elevated" | out-file -filepath "C:\ProgramData\RETSD\Tech Utility App\state.txt"
         Start-Process powershell.exe -ArgumentList '-WindowStyle Hidden -noprofile -file "C:\ProgramData\RETSD\Tech Utility App\TechUtility.ps1"' -Verb RunAs}
 }
 
@@ -62,6 +60,3 @@ $Labeloutput.Visible = $false
 $main_form.Controls.Add($Labeloutput)
 
 $main_form.ShowDialog()
-
-#Install-Module ps2exe
-#Invoke-ps2exe -inputfile "D:\Git Repository\TechUtility\TechUtilityLauncher.ps1" -outputfile "D:\Git Repository\TechUtility\TechUtilityLauncher.exe" -iconFile "D:\ico files\RETSDLogo.ico"
