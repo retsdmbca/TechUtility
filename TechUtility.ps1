@@ -224,11 +224,13 @@ endtask TechUtilityLauncher
 ### Battery Info View ###
 
 Function ButtonBatteryInfo {
-    start-process 'C:\ProgramData\RETSD\Tech Utility App\Battery Info View\BatteryInfoView.exe'
+    
+    if (!(test-path "C:\ProgramData\RETSD\Tech Utility App\Battery Info View")){New-Item -Path "C:\ProgramData\RETSD\Tech Utility App\Battery Info View" -ItemType directory}
     Invoke-WebRequest -Uri https://raw.githubusercontent.com/retsdmbca/TechUtility/master/Battery%20Info%20View/BatteryInfoView.cfg -OutFile "C:\ProgramData\RETSD\Tech Utility App\Battery Info View\BatteryInfoView.cfg"
-
-
-
+    Invoke-WebRequest -Uri https://raw.githubusercontent.com/retsdmbca/TechUtility/master/Battery%20Info%20View/BatteryInfoView.chm -OutFile "C:\ProgramData\RETSD\Tech Utility App\Battery Info View\BatteryInfoView.chm"
+    Invoke-WebRequest -Uri https://raw.githubusercontent.com/retsdmbca/TechUtility/master/Battery%20Info%20View/BatteryInfoView.exe -OutFile "C:\ProgramData\RETSD\Tech Utility App\Battery Info View\BatteryInfoView.exe"
+    Invoke-WebRequest -Uri https://raw.githubusercontent.com/retsdmbca/TechUtility/master/Battery%20Info%20View/readme.txt -OutFile "C:\ProgramData\RETSD\Tech Utility App\Battery Info View\readme.txt"
+    start-process 'C:\ProgramData\RETSD\Tech Utility App\Battery Info View\BatteryInfoView.exe'
 }
 
 
