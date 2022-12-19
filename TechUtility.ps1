@@ -218,9 +218,9 @@ Function ButtonBatteryInfo {start-process 'C:\ProgramData\RETSD\Tech Utility App
 ### Group Policy Update ###
 
 Function GPUpdate {
-    remove-item -Path "%WinDir%\System32\GroupPolicyUsers" -Force -Recurse
-    remove-item -Path "%WinDir%\System32\GroupPolicy" -Force -Recurse
-    Invoke-GPUpdate -Force
+    remove-item -Path "%WinDir%\System32\GroupPolicyUsers" -Force -Recurse | Out-File $outputfile
+    Get-ChildItem -Path "%WinDir%\System32\GroupPolicy" -Recurse | Remove-Item -force -recurse | Out-File $outputfile
+    Invoke-GPUpdate -Force | Out-File $outputfile
 }
 
 #################################################################################
