@@ -8,6 +8,8 @@ $BIOS = (Get-WmiObject -Class Win32_BIOS).SMBIOSBIOSVersion
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
 $permissions = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
+$outputfile = "C:\Tech Utility\Logs\utility.LOG"
+write "variable is $state" | out-file -filepath $outputfile -append
 ### Function to End Tasks ###
 Function Running{$Labeloutput.Text = "Script Output: Program Running"}
 Function ResetLabel{$Labeloutput.Text = "Script Output"}
@@ -144,7 +146,7 @@ Function RemoveIcons {
     }
     taskkill /f /im explorer.exe
     start-process explorer.exe
-    $TextBoxOutput.text = "Taskbar items removed. (Windows Ink Workspace, News Feed, Cortana Button, Taskview Button, Search Box, MS Store Icon, Mail Icon"
+    $TextBoxOutput.text = "Taskbar items removed. (Windows Ink Workspace, News Feed, Cortana Button, Taskview Button, Search Box, MS Store Icon, Mail Icon)"
     ResetLabel
 }
 

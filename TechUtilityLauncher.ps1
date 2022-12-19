@@ -5,8 +5,12 @@ Invoke-WebRequest -Uri https://raw.githubusercontent.com/retsdmbca/TechUtility/m
 
 Function Run {
     $Labeloutput.Visible = $true
-    if ($RadioButton1.Checked -eq $true) {Start-Process powershell.exe -ArgumentList '-WindowStyle Hidden -noprofile -file "C:\ProgramData\RETSD\Tech Utility App\TechUtility.ps1"' }
-    if ($RadioButton2.Checked -eq $true) {Start-Process powershell.exe -ArgumentList '-WindowStyle Hidden -noprofile -file "C:\ProgramData\RETSD\Tech Utility App\TechUtility.ps1"' -Verb RunAs}
+    if ($RadioButton1.Checked -eq $true) {
+        $state="normal"
+        Start-Process powershell.exe -ArgumentList '-WindowStyle Hidden -noprofile -file "C:\ProgramData\RETSD\Tech Utility App\TechUtility.ps1"' }
+    if ($RadioButton2.Checked -eq $true) {
+        $state="elevated"
+        Start-Process powershell.exe -ArgumentList '-WindowStyle Hidden -noprofile -file "C:\ProgramData\RETSD\Tech Utility App\TechUtility.ps1"' -Verb RunAs}
 }
 
 Add-Type -AssemblyName PresentationCore,PresentationFramework
