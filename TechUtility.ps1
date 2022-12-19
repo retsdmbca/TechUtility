@@ -287,7 +287,7 @@ $ButtonRemoveProfiles = New-Object System.Windows.Forms.Button
 $ButtonRemoveProfiles.Location = New-Object System.Drawing.Size(10,360)
 $ButtonRemoveProfiles.Size = New-Object System.Drawing.Size(160,23)
 $ButtonRemoveProfiles.Text = "Remove Local Profiles"
-.Add_Click({RemoveProfiles})
+$ButtonRemoveProfiles.Add_Click({RemoveProfiles})
 $main_form.Controls.Add($ButtonRemoveProfiles)
 
 $ButtonWindowsUpdates = New-Object System.Windows.Forms.Button
