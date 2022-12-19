@@ -84,6 +84,7 @@ Function RemoveProfiles {
         }
     }
     $TextBoxOutput.text = "User profiles have been removed"
+    $progressbar1.Visible = $false
     ResetLabel
 }
 
