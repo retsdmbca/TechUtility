@@ -95,6 +95,12 @@ Function RegenerateWallpaper {
     Running
     if (test-path 'C:\ProgramData\RETSD\RETSD Wallpaper'){Remove-Item -Recurse -Force 'C:\ProgramData\RETSD\RETSD Wallpaper'}
     if (Test-RegistryValue -Path 'HKLM:\SOFTWARE\RETSD' -Value 'Desktop Wallpaper Version' -ErrorAction SilentlyContinue) {Remove-ItemProperty -name "Desktop Wallpaper Version" -Path 'HKLM:\Software\RETSD'}
+    $SCCMClient = New-Object -COM 'CPApplet.CPAppletMgr'
+    foreach($action in ($SCCMClient.GetClientActions())){
+            $action.PerformAction()
+            $TextBoxOutput.AppendText("Triggering " + $action.Name + "`r`n")
+            Start-Sleep 5
+}
     $TextBoxOutput.text = "Wallpaper will be regenerated"
     ResetLabel
 }
@@ -218,9 +224,10 @@ Function ButtonBatteryInfo {start-process 'C:\ProgramData\RETSD\Tech Utility App
 ### Group Policy Update ###
 
 Function GPUpdate {
-    remove-item -Path "%WinDir%\System32\GroupPolicyUsers" -Force -Recurse -Verbose | Out-File $outputfile
-    Get-ChildItem -Path "%WinDir%\System32\GroupPolicy" -Recurse | Remove-Item -force -recurse -Verbose | Out-File $outputfile
-    Invoke-GPUpdate -Force | Out-File $outputfile
+    Running
+    remove-item -Path "c:\windows\System32\GroupPolicyUsers" -Force -Recurse
+    Get-ChildItem -Path "c:\windows\System32\GroupPolicy" -Recurse | Remove-Item -force -recurse
+    start-process 'gpupdate.exe'
 }
 
 #################################################################################
