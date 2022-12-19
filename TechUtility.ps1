@@ -10,7 +10,7 @@ $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Pri
 $permissions = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
 $state = get-content "C:\ProgramData\RETSD\Tech Utility App\state.txt"
-$state ="elevated"
+
 ### Function to End Tasks ###
 Function Running{$Labeloutput.Text = "Script Output: Program Running"}
 Function ResetLabel{$Labeloutput.Text = "Script Output"}
@@ -225,7 +225,7 @@ endtask TechUtilityLauncher
 
 Function ButtonBatteryInfo {
     start-process 'C:\ProgramData\RETSD\Tech Utility App\Battery Info View\BatteryInfoView.exe'
-    Invoke-WebRequest -Uri https://https://raw.githubusercontent.com/retsdmbca/TechUtility/master/Battery%20Info%20View/BatteryInfoView.cfg -OutFile "C:\ProgramData\RETSD\Tech Utility App\Battery Info View\BatteryInfoView.cfg"
+    Invoke-WebRequest -Uri https://raw.githubusercontent.com/retsdmbca/TechUtility/master/Battery%20Info%20View/BatteryInfoView.cfg -OutFile "C:\ProgramData\RETSD\Tech Utility App\Battery Info View\BatteryInfoView.cfg"
 
 
 
