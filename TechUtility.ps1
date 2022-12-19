@@ -95,12 +95,15 @@ Function RegenerateWallpaper {
     Running
     if (test-path 'C:\ProgramData\RETSD\RETSD Wallpaper'){Remove-Item -Recurse -Force 'C:\ProgramData\RETSD\RETSD Wallpaper'}
     if (Test-RegistryValue -Path 'HKLM:\SOFTWARE\RETSD' -Value 'Desktop Wallpaper Version' -ErrorAction SilentlyContinue) {Remove-ItemProperty -name "Desktop Wallpaper Version" -Path 'HKLM:\Software\RETSD'}
+    if (test-path "C:\Tech Utility\Desktop Wallpaper\Login Wallpaper.bmp") {remove-item "C:\Tech Utility\Desktop Wallpaper\Login Wallpaper.bmp" -Force}
     $SCCMClient = New-Object -COM 'CPApplet.CPAppletMgr'
-    foreach($action in ($SCCMClient.GetClientActions())){
-            $action.PerformAction()
-            $TextBoxOutput.AppendText("Triggering " + $action.Name + "`r`n")
-            Start-Sleep 5
-}
+    if ($SCCMClient -ne $null) {
+        foreach($action in ($SCCMClient.GetClientActions())){$action.PerformAction()}
+    }
+    DO {
+        sleep -Seconds 5
+        $TextBoxOutput.text = "waiting`r`n"
+    } Until (test-path "C:\Tech Utility\Desktop Wallpaper\Login Wallpaper.bmp")
     $TextBoxOutput.text = "Wallpaper will be regenerated"
     ResetLabel
 }
