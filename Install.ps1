@@ -11,5 +11,6 @@ if (test-path c:\windows\ccm\ccmexec.exe) {copy-item 'TechUtilityLauncher.lnk' "
 #Invoke-ps2exe -inputfile "D:\Git Repository\TechUtility\TechUtilityLauncher.ps1" -outputfile "D:\Git Repository\TechUtility\TechUtilityLauncher.exe" -iconFile "D:\ico files\RETSDLogo.ico" -noConsole
 
 Function UpdateSCCM {
+    Invoke-ps2exe -inputfile "D:\Git Repository\TechUtility\TechUtilityLauncher.ps1" -outputfile "D:\Git Repository\TechUtility\TechUtilityLauncher.exe" -iconFile "D:\ico files\RETSDLogo.ico" -noConsole
     copy-item 'install.ps1' "\\ao-sccm\source\scripts\Tech Utility App\install.ps1" -Force
     copy-item 'TechUtilityLauncher.exe' "\\ao-sccm\source\scripts\Tech Utility App\TechUtilityLauncher.exe" -Force}

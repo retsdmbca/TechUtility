@@ -1,4 +1,5 @@
 Add-Type -AssemblyName PresentationCore,PresentationFramework
+$outputfile = "C:\ProgramData\RETSD\Tech Utility App\TU.LOG"
 $computername = Get-Content env:computername
 $OSBuild = (Get-ComputerInfo OsHardwareAbstractionLayer).OsHardwareAbstractionLayer
 $SerialNumber = (Get-ComputerInfo BiosSeralNumber).BiosSeralNumber
@@ -8,9 +9,16 @@ $BIOS = (Get-WmiObject -Class Win32_BIOS).SMBIOSBIOSVersion
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
 $permissions = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
-$outputfile = "C:\Tech Utility\Logs\utility.LOG"
 $state = get-content "C:\ProgramData\RETSD\Tech Utility App\state.txt"
-Write-Output "variable is $state" | out-file -filepath $outputfile -append
+
+if ($state -eq "normal") {
+    $ButtonWallpaper.Enabled = $false
+    $RemoveProfiles.Enabled = $false
+    $ButtonWindowsUpdates.Enabled = $false
+    $ButtonAutopilotHWID.Enabled = $false
+    $ButtonUploadHWID.Enabled = $false
+}
+
 ### Function to End Tasks ###
 Function Running{$Labeloutput.Text = "Script Output: Program Running"}
 Function ResetLabel{$Labeloutput.Text = "Script Output"}
