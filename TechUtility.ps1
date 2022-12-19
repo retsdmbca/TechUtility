@@ -9,7 +9,8 @@ $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Pri
 $permissions = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
 $outputfile = "C:\Tech Utility\Logs\utility.LOG"
-write "variable is $state" | out-file -filepath $outputfile -append
+$state = get-content "C:\ProgramData\RETSD\Tech Utility App\state.txt"
+Write-Output "variable is $state" | out-file -filepath $outputfile -append
 ### Function to End Tasks ###
 Function Running{$Labeloutput.Text = "Script Output: Program Running"}
 Function ResetLabel{$Labeloutput.Text = "Script Output"}
