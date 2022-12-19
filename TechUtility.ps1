@@ -10,7 +10,7 @@ $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Pri
 $permissions = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
 $state = get-content "C:\ProgramData\RETSD\Tech Utility App\state.txt"
-
+$state ="elevated"
 ### Function to End Tasks ###
 Function Running{$Labeloutput.Text = "Script Output: Program Running"}
 Function ResetLabel{$Labeloutput.Text = "Script Output"}
@@ -94,17 +94,20 @@ Function RemoveProfiles {
 Function RegenerateWallpaper {
     Running
     if (test-path 'C:\ProgramData\RETSD\RETSD Wallpaper'){Remove-Item -Recurse -Force 'C:\ProgramData\RETSD\RETSD Wallpaper'}
-    if (Test-RegistryValue -Path 'HKLM:\SOFTWARE\RETSD' -Value 'Desktop Wallpaper Version' -ErrorAction SilentlyContinue) {Remove-ItemProperty -name "Desktop Wallpaper Version" -Path 'HKLM:\Software\RETSD'}
+    if (Test-RegistryValue -Path 'HKLM:\SOFTWARE\RETSD' -Value 'Desktop Wallpaper Version' -ErrorAction SilentlyContinue) {Remove-ItemProperty -name "Desktop Wallpaper Version" -Path 'HKLM:\Software\RETSD' -ErrorAction SilentlyContinue}
     if (test-path "C:\Tech Utility\Desktop Wallpaper\Login Wallpaper.bmp") {remove-item "C:\Tech Utility\Desktop Wallpaper\Login Wallpaper.bmp" -Force}
-    $SCCMClient = New-Object -COM 'CPApplet.CPAppletMgr'
+    if (test-path "C:\ProgramData\RETSD\RETSD Wallpaper\Login Wallpaper.bmp") {remove-item "C:\ProgramData\RETSD\RETSD Wallpaper\Login Wallpaper.bmp" -Force}
+    $SCCMClient = New-Object -COM 'CPApplet.CPAppletMgr' -ErrorAction SilentlyContinue
     if ($SCCMClient -ne $null) {
         foreach($action in ($SCCMClient.GetClientActions())){$action.PerformAction()}
+        DO {
+            sleep -Seconds 3
+            $TextBoxOutput.text = "Waiting...`r`n"
+            $TextBoxOutput.text = "Wallpaper has been regenerated"
+        } Until (test-path "C:\Tech Utility\Desktop Wallpaper\Login Wallpaper.bmp")
     }
-    DO {
-        sleep -Seconds 5
-        $TextBoxOutput.text = "waiting`r`n"
-    } Until (test-path "C:\Tech Utility\Desktop Wallpaper\Login Wallpaper.bmp")
-    $TextBoxOutput.text = "Wallpaper will be regenerated"
+    if (!(test-path "c:\windows\ccm\ccmexec.exe")) {$TextBoxOutput.text = "Wallpaper will be regenerated when Company Portal syncs"}
+
     ResetLabel
 }
 
