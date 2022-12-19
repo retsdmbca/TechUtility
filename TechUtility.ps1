@@ -209,6 +209,22 @@ endtask TechUtilityLauncher
 
 #################################################################################
 
+### Battery Info View ###
+
+Function ButtonBatteryInfo {start-process 'C:\ProgramData\RETSD\Tech Utility App\Battery Info View\BatteryInfoView.exe'}
+
+#################################################################################
+
+### Group Policy Update ###
+
+Function GPUpdate {
+    remove-item -Path "%WinDir%\System32\GroupPolicyUsers" -Force -Recurse
+    remove-item -Path "%WinDir%\System32\GroupPolicy" -Force -Recurse
+    Invoke-GPUpdate
+}
+
+#################################################################################
+
 Add-Type -assembly System.Windows.Forms
 $main_form = New-Object System.Windows.Forms.Form
 if ($permissions -eq $true) {$main_form.Text ='Tech Utility [Administrator]'}
@@ -298,6 +314,20 @@ $ButtonWindowsUpdates.Size = New-Object System.Drawing.Size(160,23)
 $ButtonWindowsUpdates.Text = "Repair Windows Update"
 $ButtonWindowsUpdates.Add_Click({RepairWindows})
 $main_form.Controls.Add($ButtonWindowsUpdates)
+
+$ButtonBatteryInfo = New-Object System.Windows.Forms.Button
+$ButtonBatteryInfo.Location = New-Object System.Drawing.Size(570,310)
+$ButtonBatteryInfo.Size = New-Object System.Drawing.Size(160,23)
+$ButtonBatteryInfo.Text = "Battery Info"
+$ButtonBatteryInfo.Add_Click({ButtonBatteryInfo})
+$main_form.Controls.Add($ButtonBatteryInfo)
+
+$ButtonGPUpdate = New-Object System.Windows.Forms.Button
+$ButtonGPUpdate.Location = New-Object System.Drawing.Size(570,360)
+$ButtonGPUpdate.Size = New-Object System.Drawing.Size(160,23)
+$ButtonGPUpdate.Text = "Group Policy (SCCM)"
+$ButtonGPUpdate.Add_Click({GPUpdate})
+$main_form.Controls.Add($ButtonGPUpdate)
 
 $progressbar1 = New-Object System.Windows.Forms.ProgressBar
 $progressbar1.Maximum = $usercount

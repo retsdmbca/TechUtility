@@ -5,6 +5,8 @@ if (!(test-path "C:\ProgramData\RETSD\CMTrace.exe")) {copy-item 'CMTrace.exe' 'C
 
 copy-item 'TechUtilityLauncher.exe' "C:\ProgramData\RETSD\Tech Utility App\TechUtilityLauncher.exe" -Force
 
+Copy-Item 'Battery Info View' "C:\ProgramData\RETSD\Tech Utility App\Battery Info View" -Force -Recurse
+
 if (test-path c:\windows\ccm\ccmexec.exe) {copy-item 'TechUtilityLauncher.lnk' "C:\Tech Utility\TechUtilityLauncher.lnk" -Force}
 
 #Install-Module ps2exe
