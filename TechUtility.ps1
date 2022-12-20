@@ -1,5 +1,5 @@
 Add-Type -AssemblyName PresentationCore,PresentationFramework
-$outputfile = "C:\ProgramData\RETSD\Tech Utility App\TechUtility.LOG"
+$outputfile = "C:\ProgramData\RETSD\Tech Utility App\Logs\TechUtility.LOG"
 $computername = Get-Content env:computername
 $OSBuild = (Get-ComputerInfo OsHardwareAbstractionLayer).OsHardwareAbstractionLayer
 $SerialNumber = (Get-ComputerInfo BiosSeralNumber).BiosSeralNumber
@@ -9,7 +9,7 @@ $BIOS = (Get-WmiObject -Class Win32_BIOS).SMBIOSBIOSVersion
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
 $permissions = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
-$state = get-content "C:\ProgramData\RETSD\Tech Utility App\configs\state.txt"
+$state = get-content "C:\ProgramData\RETSD\Tech Utility App\Configs\state.txt"
 
 ### Function to End Tasks ###
 Function Running{$Labeloutput.Text = "Script Output: Program Running"}
@@ -101,7 +101,7 @@ Function RegenerateWallpaper {
     if ($SCCMClient -ne $null) {
         foreach($action in ($SCCMClient.GetClientActions())){$action.PerformAction()}
         DO {
-            sleep -Seconds 3
+            start-sleep -Seconds 3
             $TextBoxOutput.text = "Waiting...`r`n"
             $TextBoxOutput.text = "Wallpaper has been regenerated"
         } Until (test-path "C:\Tech Utility\Desktop Wallpaper\Login Wallpaper.bmp")
@@ -197,7 +197,7 @@ Function RepairWindows{
     if (!(test-path "C:\ProgramData\RETSD")){New-Item -Path "C:\ProgramData\RETSD" -ItemType directory}
     
     start-process C:\ProgramData\RETSD\CMTrace.exe "C:\ProgramData\RETSD\Logs\$($date)-WindowsUpdate.log"
-    $TextBoxOutput.AppendText("Installing Packages`r`n")
+    $TextBoxOutput.AppendText("Installing Packages")
     install-packageprovider -name NuGet -MinimumVersion 2.8.5.201 -force
     Install-Module PSWindowsUpdate -force
     $TextBoxOutput.AppendText("Beginning Updates. Progress can be tracked in the generated log file.`r`n")
