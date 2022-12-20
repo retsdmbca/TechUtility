@@ -1,15 +1,17 @@
 ﻿cls
 if (!(test-path "C:\ProgramData\RETSD")){New-Item -Path "C:\ProgramData\RETSD" -ItemType directory}
+if (!(test-path "C:\ProgramData\RETSD\Tech Utility App")) {New-Item -Path "C:\ProgramData\RETSD\Tech Utility App" -ItemType directory}
+if (!(test-path "C:\ProgramData\RETSD\Tech Utility App\configs")) {New-Item -Path "C:\ProgramData\RETSD\Tech Utility App\configs" -ItemType directory}
 if (!(test-path "C:\ProgramData\RETSD\CMTrace.exe")){Invoke-WebRequest -Uri https://github.com/retsdmbca/TechUtility/blob/master/CMTrace.exe?raw=true -OutFile C:\ProgramData\RETSD\CMTrace.exe}
 Invoke-WebRequest -Uri https://raw.githubusercontent.com/retsdmbca/TechUtility/master/TechUtility.ps1 -OutFile "C:\ProgramData\RETSD\Tech Utility App\TechUtility.ps1"
     
 Function Run {
     $Labeloutput.Visible = $true
     if ($RadioButton1.Checked -eq $true) {
-        write-output "normal" | out-file -filepath "C:\ProgramData\RETSD\Tech Utility App\state.txt"
+        write-output "normal" | out-file -filepath "C:\ProgramData\RETSD\Tech Utility App\configs\state.txt"
         Start-Process powershell.exe -ArgumentList '-WindowStyle Hidden -noprofile -file "C:\ProgramData\RETSD\Tech Utility App\TechUtility.ps1"' }
     if ($RadioButton2.Checked -eq $true) {
-        write-output "elevated" | out-file -filepath "C:\ProgramData\RETSD\Tech Utility App\state.txt"
+        write-output "elevated" | out-file -filepath "C:\ProgramData\RETSD\Tech Utility App\configs\state.txt"
         Start-Process powershell.exe -ArgumentList '-WindowStyle Hidden -noprofile -file "C:\ProgramData\RETSD\Tech Utility App\TechUtility.ps1"' -Verb RunAs}
 }
 
@@ -24,6 +26,7 @@ $main_form.FormBorderStyle = 'Fixed3D'
 $main_form.AutoSize = $false
 $main_form.MinimizeBox = $false
 $main_form.MaximizeBox = $false
+$main_form.Icon = "C:\ProgramData\RETSD\Tech Utility App\configs\RETSDLogo.ico"
 
 $groupBox = New-Object System.Windows.Forms.GroupBox
 $groupBox.Location = New-Object System.Drawing.Size(20,20)

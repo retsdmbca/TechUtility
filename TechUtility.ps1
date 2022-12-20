@@ -1,5 +1,5 @@
 Add-Type -AssemblyName PresentationCore,PresentationFramework
-$outputfile = "C:\ProgramData\RETSD\Tech Utility App\TU.LOG"
+$outputfile = "C:\ProgramData\RETSD\Tech Utility App\TechUtility.LOG"
 $computername = Get-Content env:computername
 $OSBuild = (Get-ComputerInfo OsHardwareAbstractionLayer).OsHardwareAbstractionLayer
 $SerialNumber = (Get-ComputerInfo BiosSeralNumber).BiosSeralNumber
@@ -9,7 +9,7 @@ $BIOS = (Get-WmiObject -Class Win32_BIOS).SMBIOSBIOSVersion
 $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
 $permissions = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
-$state = get-content "C:\ProgramData\RETSD\Tech Utility App\state.txt"
+$state = get-content "C:\ProgramData\RETSD\Tech Utility App\configs\state.txt"
 
 ### Function to End Tasks ###
 Function Running{$Labeloutput.Text = "Script Output: Program Running"}
@@ -200,7 +200,7 @@ Function RepairWindows{
     $TextBoxOutput.AppendText("Installing Packages`r`n")
     install-packageprovider -name NuGet -MinimumVersion 2.8.5.201 -force
     Install-Module PSWindowsUpdate -force
-    $TextBoxOutput.AppendText("Beginning Updates`r`n")
+    $TextBoxOutput.AppendText("Beginning Updates. Progress can be tracked in the generated log file.`r`n")
     install-windowsupdate -AcceptAll -install -IgnoreReboot | Out-File "C:\ProgramData\RETSD\Logs\$($date)-WindowsUpdate.log" -force
     write-output "Windows Update script finished" | out-file -filepath "C:\ProgramData\RETSD\\Logs\$($date)-WindowsUpdate.log" -append
     $TextBoxOutput.AppendText("Updates Completed`r`n")
@@ -254,11 +254,13 @@ if ($permissions -eq $false) {$main_form.Text ='Tech Utility'}
 #$main_form.Text ='Tech Utility'
 $main_form.Width = 800
 $main_form.Height = 600
+$main_form.TopMost = $true
 $main_form.AutoSize = $true
 $main_form.StartPosition = 'CenterScreen'
 $main_form.FormBorderStyle = 'Fixed3D'
 $main_form.AutoSize = $false
 $main_form.MaximizeBox = $false
+$main_form.Icon = "C:\ProgramData\RETSD\Tech Utility App\configs\RETSDLogo.ico"
 
 $Labeloutput = New-Object System.Windows.Forms.Label
 $Labeloutput.Text = "Script Output"
