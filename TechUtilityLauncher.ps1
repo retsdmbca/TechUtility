@@ -3,8 +3,8 @@ if (!(test-path "C:\ProgramData\RETSD")){New-Item -Path "C:\ProgramData\RETSD" -
 if (!(test-path "C:\ProgramData\RETSD\Tech Utility App")) {New-Item -Path "C:\ProgramData\RETSD\Tech Utility App" -ItemType directory}
 if (!(test-path "C:\ProgramData\RETSD\Tech Utility App\configs")) {New-Item -Path "C:\ProgramData\RETSD\Tech Utility App\Configs" -ItemType directory}
 if (!(test-path "C:\ProgramData\RETSD\Tech Utility App\Logs")) {New-Item -Path "C:\ProgramData\RETSD\Tech Utility App\Logs" -ItemType directory}
+if (!(test-path "C:\ProgramData\RETSD\Tech Utility App\configs\RETSDLogo.ico")){Invoke-WebRequest -Uri https://github.com/retsdmbca/TechUtility/blob/master/RETSDLogo.ico?raw=true -OutFile "C:\ProgramData\RETSD\Tech Utility App\configs\RETSDLogo.ico"}
 if (!(test-path "C:\ProgramData\RETSD\CMTrace.exe")){Invoke-WebRequest -Uri https://github.com/retsdmbca/TechUtility/blob/master/CMTrace.exe?raw=true -OutFile C:\ProgramData\RETSD\CMTrace.exe}
-if (!(test-path "C:\ProgramData\RETSD\configs\RETSDLogo.ico")){Invoke-WebRequest -Uri https://github.com/retsdmbca/TechUtility/blob/master/RETSDLogo.ico?raw=true -OutFile "C:\ProgramData\RETSD\Tech Utility App\configs\RETSDLogo.ico"}
 Invoke-WebRequest -Uri https://raw.githubusercontent.com/retsdmbca/TechUtility/master/TechUtility.ps1 -OutFile "C:\ProgramData\RETSD\Tech Utility App\TechUtility.ps1"
 
 Function GithubTest {

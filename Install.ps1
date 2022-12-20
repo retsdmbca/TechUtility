@@ -9,7 +9,9 @@ copy-item 'TechUtilityLauncher.exe' "C:\ProgramData\RETSD\Tech Utility App\TechU
 
 if (test-path c:\windows\ccm\ccmexec.exe) {copy-item 'TechUtilityLauncher.lnk' "C:\Tech Utility\TechUtilityLauncher.lnk" -Force}
 
+
 Function UpdateSCCM {
+    ## These lines are to create the EXE and update SCCM folders
     Install-Module ps2exe
     Invoke-ps2exe -inputfile "D:\Git Repository\TechUtility\TechUtilityLauncher.ps1" -outputfile "D:\Git Repository\TechUtility\TechUtilityLauncher.exe" -iconFile "D:\ico files\RETSDLogo.ico" -noConsole
     copy-item 'install.ps1' "\\ao-sccm\source\scripts\Tech Utility App\install.ps1" -Force
