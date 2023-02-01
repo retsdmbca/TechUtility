@@ -1,3 +1,4 @@
+Set-ExecutionPolicy bypass
 Add-Type -AssemblyName PresentationCore,PresentationFramework
 $outputfile = "C:\ProgramData\RETSD\Tech Utility App\Logs\TechUtility.LOG"
 $computername = Get-Content env:computername
