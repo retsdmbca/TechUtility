@@ -11,7 +11,7 @@ $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Pri
 $permissions = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 
 $state = get-content "C:\ProgramData\RETSD\Tech Utility App\Configs\state.txt"
-
+write "variables loaded" | out-file -filepath $outputfile
 ### Function to End Tasks ###
 Function Running{$Labeloutput.Text = "Script Output: Program Running"}
 Function ResetLabel{$Labeloutput.Text = "Script Output"}

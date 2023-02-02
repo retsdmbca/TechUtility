@@ -1,4 +1,5 @@
 ﻿cls
+$outputfile = "C:\ProgramData\RETSD\Tech Utility App\Logs\TechUtilityError.LOG"
 if (!(test-path "C:\ProgramData\RETSD")){New-Item -Path "C:\ProgramData\RETSD" -ItemType directory}
 if (!(test-path "C:\ProgramData\RETSD\Tech Utility App")) {New-Item -Path "C:\ProgramData\RETSD\Tech Utility App" -ItemType directory}
 if (!(test-path "C:\ProgramData\RETSD\Tech Utility App\configs")) {New-Item -Path "C:\ProgramData\RETSD\Tech Utility App\Configs" -ItemType directory}
@@ -25,10 +26,14 @@ Function Run {
     $ButtonRun.Visible = $false
     if ($RadioButton1.Checked -eq $true) {
         write-output "normal" | out-file -filepath "C:\ProgramData\RETSD\Tech Utility App\configs\state.txt"
-        Start-Process powershell.exe -ArgumentList '-WindowStyle Hidden -noprofile -file "C:\ProgramData\RETSD\Tech Utility App\TechUtility.ps1"' }
+        try{Start-Process powershell.exe -ArgumentList '-WindowStyle Hidden -noprofile -file "C:\ProgramData\RETSD\Tech Utility App\TechUtility.ps1"' }
+        catch{write "$_.Exception.Message" | out-file -filepath $outputfile}
+}
     if ($RadioButton2.Checked -eq $true) {
         write-output "elevated" | out-file -filepath "C:\ProgramData\RETSD\Tech Utility App\configs\state.txt"
-        Start-Process powershell.exe -ArgumentList '-WindowStyle Hidden -noprofile -file "C:\ProgramData\RETSD\Tech Utility App\TechUtility.ps1"' -Verb RunAs}
+        try{Start-Process powershell.exe -ArgumentList '-WindowStyle Hidden -noprofile -file "C:\ProgramData\RETSD\Tech Utility App\TechUtility.ps1"' -Verb RunAs}
+        catch{write "$_.Exception.Message" | out-file -filepath $outputfile}
+    }
 }
 
 Add-Type -AssemblyName PresentationCore,PresentationFramework
